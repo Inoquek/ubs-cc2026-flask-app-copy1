@@ -30,18 +30,20 @@ def calc1(data):
     for i in range(n):
         dp[i][i][2 ** i] = 1.0
         for mask in range(0, num_mask):
-            if (mask & (2 ** i)) == 0:
+            if (mask & int(2 ** i)) == 0:
                 continue
 
             for prev_end in range(n):
-                if (mask & (2 ** prev_end)) == 0:
+                if (mask & int(2 ** prev_end)) == 0:
                     continue
                 for to_edge in connectivity_list[prev_end]:
                     to = to_edge[0]
                     w = to_edge[1]
                     if to == i:
-                        continue
-                    if (mask & (2 ** to)) == 0:
+                        if dp[i][prev_end][mask] * to_edge[1] > dp[i][i][mask]:
+                            pr[i][i][mask] = prev_end
+                            dp[i][i][mask] = dp[i][prev_end][mask] * to_edge[1]
+                    if (mask & int(2 ** to)) == 0:
                         continue
 
                     nmask = (mask ^ int(2 ** to))
@@ -49,15 +51,9 @@ def calc1(data):
                         dp[i][to][mask] = dp[i][prev_end][nmask] * w
                         pr[i][to][mask] = prev_end
 
-            for end in range(n):
-                if not (mask & (2 ** end)):
-                    continue
-                else:
-                    for to_edge in connectivity_list[end]:
-                        if to_edge[0] == i:
-                            if dp[i][end][mask] * to_edge[1] > mx[0]:
-                                pr[i][i][mask] = end
-                                mx = max(mx, (dp[i][end][mask] * to_edge[1], i, mask))
+
+            if dp[i][i][mask] > mx[0]:
+                mx = (dp[i][i][mask], i, mask)
 
 
     logger.info("DP computed")
@@ -79,7 +75,7 @@ def calc1(data):
     rev_path = path[::-1]
 
     logger.info("Ready to Return")
-    return {"path": rev_path, "gain": gain * 100.0}
+    return {"path": rev_path, "gain": gain - 1.0}
                 
 
 def calc2(data):
