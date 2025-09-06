@@ -63,7 +63,7 @@ def investigate():
 
     logging.info("data sent for evaluation {}".format(data))
     
-    networks = data.get("networks", [])
+    networks = [data.get("networks", []) if isinstance(data, dict) else data]
 
     logger.info("Received networks: %d", len(networks))
 
@@ -71,4 +71,5 @@ def investigate():
     logger.info("investigate result: %s", result)
     return jsonify(result)
 
+#curl.exe -s -X POST https://web-production-2f0a8.up.railway.app/investigate \  -H "Content-Type: application/json" \ -d "@investigate.json"
 
