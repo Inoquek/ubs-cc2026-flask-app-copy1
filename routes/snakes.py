@@ -348,11 +348,13 @@ def calc(data):
     bfs_queue.append((0,0))
     visited[0][0] = True 
 
+    logger.info("Starting BFS!")
     while bfs_queue:
         v, type = bfs_queue.popleft()
-
+        logger.info([v, type])
         if v == k - 1:
             break
+
         if connected[v] != -1:
 
             if not visited[type][connected[v]]:
@@ -371,6 +373,7 @@ def calc(data):
                     next = -next
             ntype = 1 if (i == 6 or (type == 1 and i != 1)) else 0
 
+            logger.info([next, ntype, "ggg"])
             if not visited[ntype][next]:
                 visited[ntype][next] = True
                 pr[ntype][next] = (v, i, type)
@@ -380,6 +383,7 @@ def calc(data):
     cur = k - 1
     type = 0 if visited[0][cur] else 1
 
+    logger.info("Finished bfs!")
     path = []
     while cur != 0:
         prev_v, step, ntype = pr[type][cur]
@@ -387,11 +391,13 @@ def calc(data):
 
         cur = prev_v
         type = ntype
+        logger.info([cur, type, "hmmmm"])
     
     path = path[::-1]
 
     ans = []
     for p in path:
+        ans.append(p)
         ans.append(p)
 
     ans[-2] = ((ans[-2] + 1) % 6) + 1
