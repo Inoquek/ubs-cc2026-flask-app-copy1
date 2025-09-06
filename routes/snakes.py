@@ -413,7 +413,7 @@ def auto_detect_and_parse(svg_content: str, debug: bool = False):
 
 #     return ans
 
-def calc_fixed(data):
+def calc(data):
     """
     Fixed version of your BFS algorithm with corrections and improvements
     """
