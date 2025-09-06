@@ -431,6 +431,8 @@ def calc(data):
     # Build adjacency list for snakes/ladders
     connected = [-1 for _ in range(k)]
     for edge in edges:
+        if edge.get("type") == "polyline":
+            continue
         start = edge["start_cell"] - 1  # Convert to 0-based
         end = edge["end_cell"] - 1
         connected[start] = end
