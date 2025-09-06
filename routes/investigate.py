@@ -3,6 +3,7 @@ import logging
 from collections import defaultdict
 from flask import request, jsonify
 from routes import app
+import json
 
 logger = logging.getLogger(__name__)
 
@@ -79,7 +80,7 @@ def investigate():
 
     result = {"networks": [calc(n) for n in networks]}
     logger.info("investigate result: %s", result)
-    return jsonify(result)
+    return json.dumps(result)
 
 #curl.exe -s -X POST https://web-production-2f0a8.up.railway.app/investigate \  -H "Content-Type: application/json" \ -d "@investigate.json"
 
