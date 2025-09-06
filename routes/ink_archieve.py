@@ -73,7 +73,6 @@ def calc1(data):
         mask = new_mask
         path.append(goods[v])
         logger.info([new_mask, v])
-        id += 1
 
     logger.info("Finished???")
     logger.info(path)
