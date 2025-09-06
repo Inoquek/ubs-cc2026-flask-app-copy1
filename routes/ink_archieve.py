@@ -40,8 +40,9 @@ def calc1(data):
                     if not (mask & (2 ** to)):
                         continue
 
-                    if dp[i][prev_end][(mask ^ (2 ** to))] * w > dp[i][to][mask]:
-                        dp[i][to][mask] = dp[i][prev_end][(mask ^ (2 ** to))] * w
+                    nmask = (mask ^ (2 ** to))
+                    if dp[i][prev_end][nmask] * w > dp[i][to][mask]:
+                        dp[i][to][mask] = dp[i][prev_end][nmask] * w
                         pr[i][to][mask] = prev_end
 
             for end in range(n):
