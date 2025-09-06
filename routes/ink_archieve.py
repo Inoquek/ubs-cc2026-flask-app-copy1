@@ -32,7 +32,7 @@ def calc1(data):
                 to = int(ratio[1])
                 w = ratio[2]
                 if dp[source][to] < (1.0 if source == v else dp[source][v]) * w:
-                    dp[source][to] = dp[source][v] * w
+                    dp[source][to] = (1.0 if source == v else dp[source][v]) * w
                     pr[source][to] = v 
 
     logger.info(dp)
@@ -46,11 +46,12 @@ def calc1(data):
 
     logger.info(mx)
     path = [goods[start], goods[v]]
+    id = 0
     logger.info(v)
-    while v != start:
+    while v != start and id <= 50:
         v = pr[start][v]
         path.append(goods[v])
-        logger.info(path)
+        id += 1
 
     logger.info(path)
     rev_path = path[::-1]
@@ -83,7 +84,7 @@ def calc2(data):
                 to = int(ratio[1])
                 w = ratio[2]
                 if dp[source][to] < (1.0 if source == v else dp[source][v]) * w:
-                    dp[source][to] = dp[source][v] * w
+                    dp[source][to] = (1.0 if source == v else dp[source][v]) * w
                     pr[source][to] = v
 
     mx = (dp[0][0], 0)
