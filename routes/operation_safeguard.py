@@ -6,6 +6,8 @@ import json
 import ast
 logger = logging.getLogger(__name__)
 
+
+
 def challenge1_calc(data) :
     transformations = data.get("transformations")
 
@@ -15,13 +17,13 @@ def challenge1_calc(data) :
     words = encrypted_word.split()
     transformations = transformations[::-1]
 
-    for transform in transformations:
-        if transform == "mirror_words(x)":
+    def process_words(words, transform):
+        if transform == "mirror_words":
 
             for index, word in enumerate(words):
                 words[index] = word[::-1]
 
-        elif transform == "encode_mirror_alphabet(x)":
+        elif transform == "encode_mirror_alphabet":
             
             logger.info("hmmm")
             for index, word in enumerate(words):
@@ -39,7 +41,7 @@ def challenge1_calc(data) :
                 logger.info(new_word)
 
             logger.info(words)
-        elif transform == "toggle_case(x)":
+        elif transform == "toggle_case":
 
             for index, word in enumerate(words):
                 new_word = ""
@@ -52,7 +54,7 @@ def challenge1_calc(data) :
                         startOther = 'a'
                     new_word += chr(ord(startOther) + (ord(word[i]) - ord(start)))
                 words[index] = new_word
-        elif transform == "swap_pairs(x)":
+        elif transform == "swap_pairs":
 
             for index, word in enumerate(words):
                 new_word = ""
@@ -63,7 +65,7 @@ def challenge1_calc(data) :
                     new_word += word[-1]
 
                 words[index] = new_word
-        elif transform == "encode_index_parity(x)":
+        elif transform == "encode_index_parity":
 
             for index, word in enumerate(words):
                 word_sz = len(word)
@@ -80,7 +82,7 @@ def challenge1_calc(data) :
 
                 words[index] = new_word
 
-        elif transform == "double_consonants(x)":
+        elif transform == "double_consonants":
             for index, word in enumerate(words):
                 new_word = ""
                 for i in range(len(word)):
@@ -89,6 +91,18 @@ def challenge1_calc(data) :
                     elif i % 2 == 0:
                         new_word += word[i]
                 words[index] = new_word
+        
+        return words
+    
+    for transform in transformations:
+        unnested = [t.replace(")", "") for t in transform.split('(')]
+
+        logger.info(unnested)
+        for t in unnested:
+            if t == 'x':
+                continue
+            words = process_words(words, t)
+        
 
     final_word = " ".join(words)
 
