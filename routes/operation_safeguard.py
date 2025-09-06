@@ -28,14 +28,24 @@ def challenge1_calc(data) :
 
             for word in words:
                 for i in range(len(word)):
-                    start, end = ('a', 'z' if (word[i] >= 'a' and word[i] <= 'z') else 'A', 'Z')
+                    if (word[i] >= 'a' and word[i] <= 'z') :
+                        start = 'a'
+                        end = 'z'
+                    else :
+                        start = 'A'
+                        end = 'Z'
                     word[i] = chr(ord(start) + (ord(end) - (ord(word[i]) - ord(start))))
 
         elif transform == "toggle_case(x)":
 
             for word in words:
                 for i in range(len(word)):
-                    start, startOther = ('a', 'A' if (word[i] >= 'a' and word[i] <= 'z') else 'A', 'a')
+                    if (word[i] >= 'a' and word[i] <= 'z') :
+                        start = 'a'
+                        startOther = 'A'
+                    else :
+                        start = 'A'
+                        startOther = 'a'
                     word[i] = chr(ord(startOther) + (ord(word[i]) - ord(start)))
         elif transform == "swap_pairs(x)":
 
