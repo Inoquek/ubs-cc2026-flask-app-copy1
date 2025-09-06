@@ -22,18 +22,18 @@ def solve_case(case):
             mp = reserve
             stamina = stamina_max
             last_front = None
-            for h in range(j + 1, idx + 2):
-                if intel[h][1] > mp or stamina == 0:
+            for h in range(j + 1, idx + 1):
+                if intel[h - 1][1] > mp or stamina == 0:
                     time += 10
                     mp = reserve
                     stamina = stamina_max
                     last_front = None
                 
-                mp -= intel[h][1]
+                mp -= intel[h - 1][1]
                 stamina -= 1
-                if not(last_front == intel[h][0]):
+                if not(last_front == intel[h - 1][0]):
                     time += 10
-                last_front = intel[h][0]
+                last_front = intel[h - 1][0]
 
             if idx == n - 1 and not(mp == reserve and stamina == stamina_max):
                 time += 10
