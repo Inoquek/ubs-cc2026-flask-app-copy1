@@ -61,7 +61,7 @@ def calc(network: dict) -> dict:
 def investigate():
     data = request.get_json()
 
-    logging.info("data sent for evaluation {}".format(data))
+    # logging.info("data sent for evaluation {}".format(data))
     
     networks = []
     is_list = False
@@ -71,7 +71,7 @@ def investigate():
         is_list = True
         networks = data
 
-    logger.info("Received networks: %d", len(networks))
+    # logging.info("Received networks: %d", len(networks))
 
     # if is_list:
     #     result = [calc(n) for n in networks]
@@ -79,8 +79,8 @@ def investigate():
         # result = {"networks": [calc(n) for n in networks]}
 
     result = {"networks": [calc(n) for n in networks]}
-    logger.info("investigate result: %s", result)
-    return json.dumps(result)
+    # logging.info("investigate result: %s", result)
+    return jsonify(result)
 
 #curl.exe -s -X POST https://web-production-2f0a8.up.railway.app/investigate \  -H "Content-Type: application/json" \ -d "@investigate.json"
 
