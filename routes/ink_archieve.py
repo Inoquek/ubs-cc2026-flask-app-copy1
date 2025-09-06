@@ -20,30 +20,29 @@ def calc1(data):
 
     
     num_mask = 2 ** n
-    dp = [[[1.0 for _ in range(n)] for ___ in range(n)] for __ in range(num_mask)]
-    pr = [[[1.0 for _ in range(n)] for ___ in range(n)] for __ in range(num_mask)]
+    dp = [[[1.0 for _ in range(num_mask)] for ___ in range(n)] for __ in range(n)]
+    pr = [[[1.0 for _ in range(num_mask)] for ___ in range(n)] for __ in range(n)]
 
     mx = (0, 0, 0)
 
     for i in range(n):
         dp[i][i][2 ** i] = 1.0
         for mask in range(0, num_mask):
-            if not (mask & (2 ** i)) :
+            if (mask & (2 ** i)) == 0:
                 continue
 
             for prev_end in range(n):
-                if not (mask & (2 ** prev_end)):
+                if (mask & (2 ** prev_end)) == 0:
                     continue
                 for to_edge in connectivity_list[prev_end]:
                     to = to_edge[0]
                     w = to_edge[1]
-                    if not (mask & (2 ** to)):
+                    if to == i:
+                        continue
+                    if (mask & (2 ** to)) == 0:
                         continue
 
                     nmask = (mask ^ (2 ** to))
-                    if nmask >= num_mask :
-                        logger.info(i, mask, to, nmask)
-                        return {}
                     if dp[i][prev_end][nmask] * w > dp[i][to][mask]:
                         dp[i][to][mask] = dp[i][prev_end][nmask] * w
                         pr[i][to][mask] = prev_end
