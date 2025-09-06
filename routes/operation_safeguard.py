@@ -38,7 +38,7 @@ def challenge1_calc(data) :
                     else :
                         start = 'A'
                         end = 'Z'
-                    new_word += chr(ord(start) + (ord(end) - (ord(word[i]) - ord(start))))
+                    new_word += chr(ord(end) - (ord(word[i]) - ord(start)))
 
                 words[index] = new_word
                 logger.info(new_word)
