@@ -153,5 +153,5 @@ def ink_archieve():
 
     result = [calc1(data[0]), calc1(data[1])]
     
-    logging.info("investigate result: %s", data)
-    return json.dumps(data)
+    logging.info("investigate result: %s", result)
+    return json.dumps(result)
