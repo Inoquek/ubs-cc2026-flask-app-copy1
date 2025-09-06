@@ -63,7 +63,7 @@ def investigate():
 
     logging.info("data sent for evaluation {}".format(data))
     
-    networks = [data.get("networks", []) if isinstance(data, dict) else data]
+    networks = data.get("networks")
 
     logger.info("Received networks: %d", len(networks))
 
