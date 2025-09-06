@@ -20,7 +20,7 @@ def calc1(data):
 
 
     dp = [[0 for _ in range(n)] for __ in range(n)]
-    pr = [[-1 for _ in range(n)] for __ in range(n)]
+    pr = [[0 for _ in range(n)] for __ in range(n)]
 
     for i in range(n):
         dp[i][i] = 1
