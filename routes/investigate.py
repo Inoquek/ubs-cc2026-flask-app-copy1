@@ -1,6 +1,5 @@
 # routes/investigate.py
 import logging
-import json
 from collections import defaultdict
 from flask import request, jsonify
 from routes import app
@@ -63,11 +62,20 @@ def investigate():
 
     logging.info("data sent for evaluation {}".format(data))
     
-    networks = data.get("networks")
+    networks = []
+    is_list = False
+    if isinstance(data, dict) :
+        networks = data.get("networks")
+    else:
+        is_list = True
+        networks = data
 
     logger.info("Received networks: %d", len(networks))
 
-    result = {"networks": [calc(n) for n in networks]}
+    if is_list:
+        result = [calc(n) for n in networks]
+    else:
+        result = {"networks": [calc(n) for n in networks]}
     logger.info("investigate result: %s", result)
     return jsonify(result)
 
