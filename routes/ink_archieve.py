@@ -36,7 +36,7 @@ def calc1(data):
                     pr[source][to] = v 
 
     logger.info(dp)
-
+    logger.info(pr)
     mx = (dp[0][0], 0)
     for i in range(n):
         mx = max(mx, (dp[i][i], i))
@@ -51,7 +51,7 @@ def calc1(data):
 
     path = path[::-1]
 
-    return {"path": path, "gain": gain * 100.0}
+    return {"path": path, "gain": (gain - 1.0) * 100.0}
                 
 
 def calc2(data):
