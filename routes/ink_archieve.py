@@ -37,7 +37,7 @@ def calc1(data):
 
     logger.info(dp)
 
-    return {}
+    return {"path": [], "gain": 0}
 
     mx = (dp[0][0], 0)
     for i in range(n):
