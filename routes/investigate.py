@@ -7,61 +7,55 @@ import json
 
 logger = logging.getLogger(__name__)
 
-def calc(network: dict) -> dict:
-    """
-    Input:  {
-      "networkId": "...",
-      "network": [{"spy1":"A","spy2":"B"}, ...]
-    }
-    Output: {
-      "networkId": "...",
-      "network": [{"spy1":"A","spy2":"B"}, ...]   # edges that remain connected even if removed
-    }
-    """
-    edges = network.get("network", [])
-    adj = defaultdict(list)
+def calc(network):
+    edges = network.get("network")
+    connect_list = {}
 
-    # assign an id to each undirected edge
-    for eid, edge in enumerate(edges):
-        u = edge.get("spy1")
-        v = edge.get("spy2")
-        if u is None or v is None:
-            # skip malformed edges
-            continue
-        adj[u].append((v, eid))
-        adj[v].append((u, eid))
+    id = 0
+    for edge in edges:
+        user1 = edge.get("spy1")
+        user2 = edge.get("spy2")
+        if user1 not in connect_list:
+            connect_list[user1] = []
+        if user2 not in connect_list:
+            connect_list[user2] = []
+        connect_list[user1].append((user2, id))
+        connect_list[user2].append((user1, id))
+        id += 1
 
-    def dfs(cur: str, target: str, banned_id: int, seen: set) -> bool:
-        if cur == target:
+    ans = {"networkId": network.get("networkId"), "network": []}
+
+    def dfs(visited, vertex, target, ban_id):
+        if vertex == target:
             return True
-        seen.add(cur)
-        for nxt, eid in adj[cur]:
-            if eid == banned_id or nxt in seen:
+
+        visited.add(vertex)
+        for (to, id) in connect_list[vertex]:
+            if to in visited or id == ban_id:
                 continue
-            if dfs(nxt, target, banned_id, seen):
+
+            if dfs(visited, to, target, ban_id) :
                 return True
+        
         return False
+    
+    id = 0
+    for edge in edges:
+        user1 = edge.get("spy1")
+        user2 = edge.get("spy2")
 
-    out = {"networkId": network.get("networkId"), "network": []}
+        if dfs(set(), user1, user2, id):
+            ans["network"].append({"spy1": user1, "spy2": user2})
+        
 
-    # For each edge (u, v, id), check if there's an alternate path from u to v when this edge is banned.
-    for eid, edge in enumerate(edges):
-        u = edge.get("spy1")
-        v = edge.get("spy2")
-        if u is None or v is None:
-            continue
-        if dfs(u, v, eid, set()):
-            # edge is NOT a bridge (connection still exists without it) -> include it
-            out["network"].append({"spy1": u, "spy2": v})
-
-    return out
+    return ans
 
 
 @app.route("/investigate", methods = ["POST"])
 def investigate():
     data = request.get_json()
 
-    # logging.info("data sent for evaluation {}".format(data))
+    logging.info("data sent for evaluation {}".format(data))
     
     networks = []
     is_list = False
@@ -79,8 +73,8 @@ def investigate():
         # result = {"networks": [calc(n) for n in networks]}
 
     result = {"networks": [calc(n) for n in networks]}
-    # logging.info("investigate result: %s", result)
-    return jsonify(result)
+    logging.info("investigate result: %s", result)
+    return json.dumps(result)
 
 #curl.exe -s -X POST https://web-production-2f0a8.up.railway.app/investigate \  -H "Content-Type: application/json" \ -d "@investigate.json"
 
