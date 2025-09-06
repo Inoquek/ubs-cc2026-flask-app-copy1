@@ -13,50 +13,61 @@ def calc1(data):
     goods = data.get("goods")
 
     n = len(goods)
-    # connectivity_list = [[] for _ in range(n)]
+    connectivity_list = [[] for _ in range(n)]
 
-    # for ratio in ratios:
-    #     connectivity_list[ratio[0]].append([ratio[1], ratio[2]])
+    for ratio in ratios:
+        connectivity_list[int(ratio[0])].append([int(ratio[1]), ratio[2]])
 
+    
+    num_mask = 2 ** n
+    dp = [[[1.0 for _ in range(n)] for ___ in range(n)] for __ in range(num_mask)]
+    pr = [[[1.0 for _ in range(n)] for ___ in range(n)] for __ in range(num_mask)]
 
-    dp = [[0 for _ in range(n)] for __ in range(n)]
-    pr = [[0 for _ in range(n)] for __ in range(n)]
+    mx = (0, 0, 0)
 
     for i in range(n):
-        dp[i][i] = 1
+        dp[i][i][2 ** i] = 1.0
+        for mask in range(0, num_mask):
+            if not (mask & (2 ** i)) :
+                continue
 
-    for _ in range(n):
-        for source in range(n):
-            for ratio in ratios:
-                v = int(ratio[0])
-                to = int(ratio[1])
-                w = ratio[2]
-                if dp[source][to] < (1.0 if source == v else dp[source][v]) * w:
-                    dp[source][to] = (1.0 if source == v else dp[source][v]) * w
-                    pr[source][to] = v 
+            for prev_end in range(n):
+                if not (mask & (2 ** prev_end)):
+                    continue
+                for to_edge in connectivity_list[prev_end]:
+                    to = to_edge[0]
+                    w = to_edge[1]
+                    if not (mask & (2 ** to)):
+                        continue
 
-    logger.info(dp)
-    logger.info(pr)
-    mx = (dp[0][0], 0)
-    for i in range(n):
-        mx = max(mx, (dp[i][i], i))
+                    if dp[i][prev_end][(mask ^ (2 ** to))] * w > dp[i][to][mask]:
+                        dp[i][to][mask] = dp[i][prev_end][(mask ^ (2 ** to))] * w
+                        pr[i][to][mask] = prev_end
 
-    gain, start = mx
-    v = pr[start][start]
+            for end in range(n):
+                if not (mask & (2 ** end)):
+                    continue
+                else:
+                    for to_edge in connectivity_list[end]:
+                        if to_edge[0] == i:
+                            if dp[i][end][mask] * to_edge[1] > mx[0]:
+                                pr[i][i][mask] = end
+                                mx = max(mx, (dp[i][end][mask] * to_edge[1], i, mask))
 
-    logger.info(mx)
+
+
+    gain, start, mask = mx
+    v = pr[start][start][mask]
     path = [goods[start], goods[v]]
-    id = 0
-    logger.info(v)
-    while v != start and id <= 50:
-        v = pr[start][v]
+    mask = (mask ^ (2 ** v))
+    while v != start:
+        v = pr[start][v][mask]
+        mask = (mask ^ (2 ** v))
         path.append(goods[v])
-        id += 1
 
-    logger.info(path)
-    rev_path = path[::-1]
+    path = path[::-1]
 
-    return {"path": rev_path, "gain": (gain - 1.0) * 100.0}
+    return {"path": path, "gain": gain * 100.0}
                 
 
 def calc2(data):
