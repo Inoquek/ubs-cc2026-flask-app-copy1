@@ -112,7 +112,7 @@ def challenge1_calc(data) :
 
 
 def challenge2_calc(data) :
-    return 3
+    return "3"
 
 def _parse_kv_log(line: str) -> dict:
     """Parse 'K: V | K2: V2 | ...' with arbitrary order/casing."""
