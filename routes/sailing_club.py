@@ -59,4 +59,4 @@ def sailing_club():
     result = {"solutions": [calc(t) for t in tests]}
     
     logging.info("investigate result: %s", result)
-    return jsonify(result)
+    return json.dumps(result)
