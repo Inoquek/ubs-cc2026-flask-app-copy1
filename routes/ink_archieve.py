@@ -44,14 +44,16 @@ def calc1(data):
     gain, start = mx
     v = pr[start][start]
 
+    logger.info(mx)
     path = [goods[start], goods[v]]
     while v != start:
         v = pr[start][v]
         path.append(goods[v])
 
-    path = path[::-1]
+    logger.info(path)
+    rev_path = path[::-1]
 
-    return {"path": path, "gain": (gain - 1.0) * 100.0}
+    return {"path": rev_path, "gain": (gain - 1.0) * 100.0}
                 
 
 def calc2(data):
