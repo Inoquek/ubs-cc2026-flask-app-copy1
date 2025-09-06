@@ -517,7 +517,7 @@ def calc(data):
         prev_pos, dice_roll, prev_type = pr[cur_type][cur_pos]
         path.append(dice_roll)
         
-        # logger.info(f"Path step: dice={dice_roll}, from {prev_pos} to {cur_pos}")
+        logger.info(f"Path step: dice={dice_roll}, from {prev_pos} to {cur_pos}")
         
         cur_pos = prev_pos
         cur_type = prev_type
