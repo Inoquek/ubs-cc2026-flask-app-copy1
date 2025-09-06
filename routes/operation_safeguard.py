@@ -282,7 +282,7 @@ def challenge4_calc(result1, result2, result3) :
         return ''.join(result)
 
     # Step 1: Caesar shift backwards by in2
-    step1 = caesar_shift(result1, -result2)
+    step1 = caesar_shift(result1, -int(result2))
     # Step 2: Vigenère decryption with key in3
     plaintext = vigenere_decrypt(step1, result3)
     return plaintext
