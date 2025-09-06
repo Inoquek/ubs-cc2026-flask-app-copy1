@@ -161,7 +161,7 @@ class SnakesAndLaddersParser:
     def get_grid_cell_number(self, row: int, col: int, rows: int, cols: int) -> int:
         """Convert grid position to cell number (1-based, following snakes and ladders numbering)"""
         # Standard snakes and ladders numbering: bottom-left is 1, zigzag pattern
-        if row % 2 == 0:  # Even rows go left to right
+        if row % 2 == (rows - 1) % 2:  # Even rows go left to right
             return (rows - row - 1) * cols + col + 1
         else:  # Odd rows go right to left
             return (rows - row - 1) * cols + (cols - col)
