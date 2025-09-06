@@ -69,7 +69,7 @@ def challenge1_calc(data) :
 
             for index, word in enumerate(words):
                 word_sz = len(word)
-                odd_pointer = word_sz // 2
+                odd_pointer = (word_sz // 2) + word_sz % 2
                 even_pointer = 0
                 new_word = ""
                 for i in range(word_sz):
@@ -96,6 +96,7 @@ def challenge1_calc(data) :
     
     for transform in transformations:
         unnested = [t.replace(")", "") for t in transform.split('(')]
+
 
         logger.info(unnested)
         for t in unnested:
