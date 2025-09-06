@@ -10,6 +10,8 @@ import xml.etree.ElementTree as ET
 import re
 from typing import Tuple, List, Dict
 
+import copy
+
 class SnakesAndLaddersParser:
     def __init__(self, svg_content: str):
         self.svg_content = svg_content
@@ -350,50 +352,53 @@ def calc(data):
 
     logger.info("Starting BFS!")
     while bfs_queue:
-        v, type = bfs_queue.popleft()
-        logger.info([v, type])
+        v, cur_type = bfs_queue.popleft()
+        logger.info([v, cur_type])
         if v == k - 1:
             break
 
         if connected[v] != -1:
 
-            if not visited[type][connected[v]]:
-                visited[type][connected[v]] = True
-                pr[type][connected[v]] = pr[type][v]
-                bfs_queue.appendleft((connected[v], type))
+            if not visited[cur_type][connected[v]]:
+                visited[cur_type][connected[v]] = True
+                pr[cur_type][connected[v]] = copy.deepcopy(pr[cur_type][v])
+                bfs_queue.appendleft((connected[v], cur_type))
+
             continue
         
         for i in range(1, 7):
-            step = i if type == 0 else int(2 ** i)
+            step = i if cur_type == 0 else int(2 ** i)
             next = v + step
             while next >= k or next < 0:
                 if next >= k:
                     next = (k - 1) - (next - (k - 1))
                 else:
                     next = -next
-            ntype = 1 if (i == 6 or (type == 1 and i != 1)) else 0
+            ntype = 1 if (i == 6 or (cur_type == 1 and i != 1)) else 0
 
             logger.info([next, ntype, "ggg"])
             if not visited[ntype][next]:
                 visited[ntype][next] = True
-                pr[ntype][next] = (v, i, type)
+                pr[ntype][next] = (v, i, cur_type)
                 bfs_queue.append((next, ntype))
 
     
+    logger.info(visited[0][k - 1])
+    logger.info(visited[1][k - 1])
     cur = k - 1
-    type = 0 if visited[0][cur] else 1
+    cur_type = 0 if visited[0][cur] else 1
 
     logger.info("Finished bfs!")
     path = []
-    path1 = [(cur, type)]
+    path1 = [(cur, cur_type)]
     idx = 0
     while cur != 0 and idx <= 20:
-        prev_v, step, ntype = pr[type][cur]
+        prev_v, step, ntype = pr[cur_type][cur]
         path.append(step)
         cur = prev_v
-        type = ntype
-        path1.append((cur,type))
-        logger.info([cur, type, "hmmmm"])
+        cur_type = ntype
+        path1.append((cur,cur_type))
+        logger.info([cur, cur_type, "hmmmm"])
         idx += 1
     
     path = path[::-1]
