@@ -23,13 +23,13 @@ def challenge1_calc(data) :
     for transform in transformations:
         if transform == "mirror_words(x)":
 
-            for word in words:
-                word = word[::-1]
+            for index, word in enumerate(words):
+                words[index] = word[::-1]
 
         elif transform == "encode_mirror_alphabet(x)":
             
             logger.info("hmmm")
-            for word in words:
+            for index, word in enumerate(words):
                 new_word = ""
                 for i in range(len(word)):
                     if (word[i] >= 'a' and word[i] <= 'z') :
@@ -39,13 +39,14 @@ def challenge1_calc(data) :
                         start = 'A'
                         end = 'Z'
                     new_word += chr(ord(start) + (ord(end) - (ord(word[i]) - ord(start))))
-                word = new_word
+
+                words[index] = new_word
                 logger.info(new_word)
 
             logger.info(words)
         elif transform == "toggle_case(x)":
 
-            for word in words:
+            for index, word in enumerate(words):
                 new_word = ""
                 for i in range(len(word)):
                     if (word[i] >= 'a' and word[i] <= 'z') :
@@ -55,10 +56,10 @@ def challenge1_calc(data) :
                         start = 'A'
                         startOther = 'a'
                     new_word += chr(ord(startOther) + (ord(word[i]) - ord(start)))
-                word = new_word
+                words[index] = new_word
         elif transform == "swap_pairs(x)":
 
-            for word in words:
+            for index, word in enumerate(words):
                 new_word = ""
                 for i in range(0, len(word), 2):
                     new_word += word[i + 1]
@@ -66,10 +67,10 @@ def challenge1_calc(data) :
                 if len(word) % 2:
                     new_word += word[-1]
 
-                word = new_word
+                words[index] = new_word
         elif transform == "encode_index_parity(x)":
 
-            for word in words:
+            for index, word in enumerate(words):
                 word_sz = len(word)
                 odd_pointer = word_sz // 2
                 even_pointer = 0
@@ -82,18 +83,17 @@ def challenge1_calc(data) :
                         new_word += word[even_pointer]
                         even_pointer += 1
 
-                word = new_word
+                words[index] = new_word
 
         elif transform == "double_consonants(x)":
-            
-            new_word = ""
-            for word in words:
+            for index, word in enumerate(words):
+                new_word = ""
                 for i in range(len(word)):
                     if word[i] in set('a', 'o', 'e', 'u', 'i'):
                         new_word += word[i]
                     elif i % 2 == 0:
                         new_word += word[i]
-                word = new_word
+                words[index] = new_word
 
     final_word = " ".join(words)
 
