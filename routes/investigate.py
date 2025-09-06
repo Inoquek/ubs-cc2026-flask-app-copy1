@@ -73,9 +73,6 @@ def investigate():
     # else:
         # result = {"networks": [calc(n) for n in networks]}
 
-    result = {"networks": [calc(n) for n in networks]}
+    result = [calc(n) for n in networks]
     logging.info("investigate result: %s", result)
     return json.dumps(result)
-
-#curl.exe -s -X POST https://web-production-2f0a8.up.railway.app/investigate \  -H "Content-Type: application/json" \ -d "@investigate.json"
-
