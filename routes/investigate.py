@@ -74,5 +74,6 @@ def investigate():
         # result = {"networks": [calc(n) for n in networks]}
 
     result = {"networks": [calc(n) for n in networks]}
-    logging.info("investigate result: %s", result)
-    return json.dumps(result)
+    json_string = json.dumps(result, indent=2)
+    logging.info("investigate result: %s", json_string)
+    return json_string
