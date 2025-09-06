@@ -62,10 +62,10 @@ def calc1(data):
     gain, start, mask = mx
     v = pr[start][start][mask]
     path = [goods[start], goods[v]]
-    mask = (mask ^ int(2 ** v))
     while v != start:
+        new_mask = (mask ^ int(2 ** v))
         v = pr[start][v][mask]
-        mask = (mask ^ int(2 ** v))
+        mask = new_mask
         path.append(goods[v])
 
     path = path[::-1]
