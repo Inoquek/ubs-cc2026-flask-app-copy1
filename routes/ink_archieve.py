@@ -13,10 +13,10 @@ def calc1(data):
     goods = data.get("goods")
 
     n = len(goods)
-    connectivity_list = [[] for _ in range(n)]
+    # connectivity_list = [[] for _ in range(n)]
 
-    for ratio in ratios:
-        connectivity_list[ratio[0]].append([ratio[1], ratio[2]])
+    # for ratio in ratios:
+    #     connectivity_list[ratio[0]].append([ratio[1], ratio[2]])
 
 
     dp = [[0 for _ in range(n)] for __ in range(n)]
@@ -57,10 +57,10 @@ def calc2(data):
     goods = data.get("goods")
 
     n = len(goods)
-    connectivity_list = [[] for _ in range(n)]
+    # connectivity_list = [[] for _ in range(n)]
 
-    for ratio in ratios:
-        connectivity_list[ratio[0]].append([ratio[1], ratio[2]])
+    # for ratio in ratios:
+    #     connectivity_list[ratio[0]].append([ratio[1], ratio[2]])
 
 
     dp = [[0 for _ in range(n)] for __ in range(n)]
