@@ -402,7 +402,7 @@ def calc(data):
 
 @app.route("/slpu", methods = ["POST"])
 def snakes():
-    data = auto_detect_and_parse(request.get_json())
+    data = auto_detect_and_parse(request.get_data(as_text=True))
 
     logging.info("data sent for evaluation {}".format(data))
 
