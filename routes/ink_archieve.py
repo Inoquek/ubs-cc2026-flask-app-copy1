@@ -46,9 +46,11 @@ def calc1(data):
 
     logger.info(mx)
     path = [goods[start], goods[v]]
+    logger.info(v)
     while v != start:
         v = pr[start][v]
         path.append(goods[v])
+        logger.info(path)
 
     logger.info(path)
     rev_path = path[::-1]
