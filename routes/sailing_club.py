@@ -22,17 +22,16 @@ def calc(input):
         events.append([end + 1, -1])
 
     events = sorted(events)
-    minBoatsNeeded = 0
 
+    minBoatsNeeded = 0
     logger.info(boats)
     logger.info(events)
     cur = 0
     sortedMergedSlots = []
     L = -1
-    
     for event in events:
         timestamp = event[0]
-        type = events[1]
+        type = event[1]
         if type == 1:
             cur += 1
             if cur == 1:
