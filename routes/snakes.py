@@ -421,7 +421,6 @@ def calc(data):
     edges = data.get("edges")
     
     logger.info(f"Grid size: {m}x{n}")
-    logger.info(f"Edges: {edges}")
     
     k = m * n
     
@@ -447,7 +446,7 @@ def calc(data):
     
     while bfs_queue:
         v, current_type = bfs_queue.popleft()
-        logger.info(f"Processing: position={v}, type={current_type}")
+        # logger.info(f"Processing: position={v}, type={current_type}")
         
         # Check if we reached the end
         if v == k - 1:
@@ -488,7 +487,7 @@ def calc(data):
             else:
                 next_type = 0
             
-            logger.info(f"  Trying: dice={dice_roll}, step={step}, next_pos={next_pos}, next_type={next_type}")
+            # logger.info(f"  Trying: dice={dice_roll}, step={step}, next_pos={next_pos}, next_type={next_type}")
             
             # Add to queue if not visited
             if not visited[next_type][next_pos]:
@@ -518,7 +517,7 @@ def calc(data):
         prev_pos, dice_roll, prev_type = pr[cur_type][cur_pos]
         path.append(dice_roll)
         
-        logger.info(f"Path step: dice={dice_roll}, from {prev_pos} to {cur_pos}")
+        # logger.info(f"Path step: dice={dice_roll}, from {prev_pos} to {cur_pos}")
         
         cur_pos = prev_pos
         cur_type = prev_type
