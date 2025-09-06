@@ -22,21 +22,21 @@ class SnakesAndLaddersParser:
         """Extract grid size (rows, cols) from the SVG pattern or polyline coordinates"""
         
         # # Method 1: Try to extract from pattern if available
-        # pattern = self.root.find('.//svg:pattern[@id="grid"]', self.namespace)
-        # if pattern is not None:
-        #     width = pattern.get('width', '32')
-        #     height = pattern.get('height', '32')
-        #     # Get SVG viewBox to calculate grid dimensions
-        #     viewbox = self.root.get('viewBox', '0 0 128 128')
-        #     _, _, svg_width, svg_height = map(float, viewbox.split())
+        pattern = self.root.find('.//svg:pattern[@id="grid"]', self.namespace)
+        if pattern is not None:
+            width = pattern.get('width', '32')
+            height = pattern.get('height', '32')
+            # Get SVG viewBox to calculate grid dimensions
+            viewbox = self.root.get('viewBox', '0 0 128 128')
+            _, _, svg_width, svg_height = map(float, viewbox.split())
             
-        #     grid_width = int(float(width))
-        #     grid_height = int(float(height))
+            grid_width = int(float(width))
+            grid_height = int(float(height))
             
-        #     cols = int(svg_width / grid_width)
-        #     rows = int(svg_height / grid_height)
+            cols = int(svg_width / grid_width)
+            rows = int(svg_height / grid_height)
             
-        #     return rows, cols
+            return rows, cols
         
         # Method 2: Analyze polyline coordinates to determine grid bounds
         polylines = self.root.findall('.//svg:polyline', self.namespace)
