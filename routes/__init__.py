@@ -6,3 +6,4 @@ import routes.investigate
 import routes.trivia
 import routes.diaries
 import routes.operation_safeguard
+import routes.sailing_club
