@@ -65,7 +65,7 @@ def calc1(data):
     mask = (mask ^ int(2 ** v))
     while v != start:
         v = pr[start][v][mask]
-        mask = (mask ^ (2 ** v))
+        mask = (mask ^ int(2 ** v))
         path.append(goods[v])
 
     path = path[::-1]
