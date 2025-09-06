@@ -7,6 +7,8 @@ import json
 import numpy as np
 logger = logging.getLogger(__name__)
 
+import decimal
+
 
 # def calc1(data):
 #     ratios = data.get("ratios")
@@ -149,10 +151,11 @@ def calc1(data):
     return {"path": rev_path, "gain": float((mx - 1.0) * 100.0)}
                 
 
-
+def parse_float_custom(s): 
+    return decimal.Decimal(str(round(float(s), 20)))
 @app.route("/The-Ink-Archive", methods = ["POST"])
 def ink_archieve():
-    data = request.get_json()
+    data = json.loads(request, parse_float=parse_float_custom)
 
     logging.info("data sent for evaluation {}".format(data))
     
