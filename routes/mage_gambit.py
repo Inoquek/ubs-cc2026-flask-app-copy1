@@ -55,6 +55,7 @@ def gambit():
     #     logger.info(f"Case {case}:")
     #     logger.info(payload[case-1])
 
+    logger.info(payload)
     if not isinstance(payload, list):
         return jsonify({"error": "Expected a JSON array of cases"}), 400
     
