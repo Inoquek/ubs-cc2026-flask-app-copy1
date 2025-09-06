@@ -18,11 +18,14 @@ def calc(input):
         start = boat[0]
         end = boat[1]
 
-        events.append([boat[0], 1])
-        events.append([boat[1] + 1, -1])
+        events.append([start, 1])
+        events.append([end + 1, -1])
 
-    events.sort()
+    events = sorted(events)
     minBoatsNeeded = 0
+
+    logger.info(boats)
+    logger.info(events)
     cur = 0
     sortedMergedSlots = []
     L = -1
