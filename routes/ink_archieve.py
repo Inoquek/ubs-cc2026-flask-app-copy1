@@ -22,7 +22,7 @@ def calc1(data):
     num_mask = 2 ** n
     dp = [[[0.0 for _ in range(num_mask)] for ___ in range(n)] for __ in range(n)]
     pr = [[[1 for _ in range(num_mask)] for ___ in range(n)] for __ in range(n)]
-    
+
     mx = (0, 0, 0)
 
     for i in range(n):
@@ -70,7 +70,7 @@ def calc1(data):
         v = pr[start][v][mask]
         mask = new_mask
         path.append(goods[v])
-        logger.info(new_mask)
+        logger.info([new_mask, v])
         id += 1
 
     path = path[::-1]
