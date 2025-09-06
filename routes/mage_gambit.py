@@ -39,8 +39,6 @@ def solve_case(case):
                 time += 10
             dp[idx + 1] = dp[j] + time if dp[idx + 1] == -1 else max(dp[j] + time, dp[idx + 1])
         
-    if not(mp == reserve and stamina == stamina_max):
-        time += 10 # mandatory cooldown
     return {"time": time}
 
 
