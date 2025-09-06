@@ -20,7 +20,7 @@ def calc1(data):
 
 
     dp = [[0 for _ in range(n)] for __ in range(n)]
-    pr = [[-1 for _ in range(n)] for _ in range(n)]
+    pr = [[-1 for _ in range(n)] for __ in range(n)]
 
     for i in range(n):
         dp[i][i] = 1
@@ -36,8 +36,6 @@ def calc1(data):
                     pr[source][to] = v 
 
     logger.info(dp)
-
-    return {"path": [], "gain": 0}
 
     mx = (dp[0][0], 0)
     for i in range(n):
@@ -69,7 +67,7 @@ def calc2(data):
 
 
     dp = [[0 for _ in range(n)] for __ in range(n)]
-    pr = [[0 for _ in range(n)] for _ in range(n)]
+    pr = [[0 for _ in range(n)] for __ in range(n)]
 
     for i in range(n):
         dp[i][i] = 1
