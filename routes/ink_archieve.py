@@ -21,7 +21,7 @@ def calc1(data):
     
     num_mask = 2 ** n
     dp = [[[1.0 for _ in range(num_mask)] for ___ in range(n)] for __ in range(n)]
-    pr = [[[1.0 for _ in range(num_mask)] for ___ in range(n)] for __ in range(n)]
+    pr = [[[1 for _ in range(num_mask)] for ___ in range(n)] for __ in range(n)]
 
     mx = (0, 0, 0)
 
