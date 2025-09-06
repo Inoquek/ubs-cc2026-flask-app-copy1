@@ -75,7 +75,7 @@ def calc1(data):
     rev_path = path[::-1]
 
     logger.info("Ready to Return")
-    return {"path": rev_path, "gain": gain - 1.0}
+    return {"path": rev_path, "gain": (gain - 1.0) * 100.0}
                 
 
 def calc2(data):
