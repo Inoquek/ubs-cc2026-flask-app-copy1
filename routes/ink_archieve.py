@@ -73,6 +73,8 @@ def calc1(data):
         logger.info([new_mask, v])
         id += 1
 
+    logger.info("Finished???")
+    logger.info(path)
     path = path[::-1]
 
     return {"path": path, "gain": gain * 100.0}
