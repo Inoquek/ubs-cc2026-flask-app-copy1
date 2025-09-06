@@ -151,7 +151,7 @@ def ink_archieve():
     logging.info("data sent for evaluation {}".format(data))
     
 
-    result = [calc1(data[0]), calc1(data[1])]
+    result = [calc1(data[0]), {"path": [data[0].get("goods")[0]], "gain": 0}]
     
     logging.info("investigate result: %s", result)
     return json.dumps(result)
