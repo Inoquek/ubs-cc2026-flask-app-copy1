@@ -98,13 +98,13 @@ def challenge1_calc(data) :
 
 
 def challenge2_calc(data) :
-    return ""
+    return "a"
 
 def challenge3_calc(data) :
-    return ""
+    return "a"
 def challenge4_calc(result1, result2, result3) :
 
-    return ""
+    return "a"
 
 @app.route('/operation-safeguard', methods=['POST'])
 def operation_safeguard():
