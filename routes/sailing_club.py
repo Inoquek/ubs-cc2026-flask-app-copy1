@@ -43,7 +43,7 @@ def calc(input):
         
         minBoatsNeeded = max(minBoatsNeeded, cur)
 
-    ans = {"id": id, "sortedMergedSlots": sortedMergedSlots, "minBoatsNeeded?": minBoatsNeeded}
+    ans = {"id": id, "sortedMergedSlots": sortedMergedSlots, "minBoatsNeeded": minBoatsNeeded}
 
     return ans
 
