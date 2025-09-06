@@ -27,6 +27,7 @@ def challenge1_calc(data) :
         elif transform == "encode_mirror_alphabet(x)":
 
             for word in words:
+                new_word = ""
                 for i in range(len(word)):
                     if (word[i] >= 'a' and word[i] <= 'z') :
                         start = 'a'
@@ -34,11 +35,12 @@ def challenge1_calc(data) :
                     else :
                         start = 'A'
                         end = 'Z'
-                    word[i] = chr(ord(start) + (ord(end) - (ord(word[i]) - ord(start))))
-
+                    new_word += chr(ord(start) + (ord(end) - (ord(word[i]) - ord(start))))
+                word = new_word
         elif transform == "toggle_case(x)":
 
             for word in words:
+                new_word = ""
                 for i in range(len(word)):
                     if (word[i] >= 'a' and word[i] <= 'z') :
                         start = 'a'
@@ -46,12 +48,19 @@ def challenge1_calc(data) :
                     else :
                         start = 'A'
                         startOther = 'a'
-                    word[i] = chr(ord(startOther) + (ord(word[i]) - ord(start)))
+                    new_word += chr(ord(startOther) + (ord(word[i]) - ord(start)))
+                word = new_word
         elif transform == "swap_pairs(x)":
 
             for word in words:
+                new_word = ""
                 for i in range(0, len(word), 2):
-                    word[i], word[i + 1] = word[i + 1], word[i]
+                    new_word += word[i + 1]
+                    new_word += word[i]
+                if len(word) % 2:
+                    new_word += word[-1]
+
+                word = new_word
         elif transform == "encode_index_parity(x)":
 
             for word in words:
