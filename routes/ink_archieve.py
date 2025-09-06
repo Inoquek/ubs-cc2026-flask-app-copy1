@@ -89,8 +89,8 @@ def calc1(data):
         connectivity_list[int(ratio[0])].append([int(ratio[1]), np.float64(ratio[2])])
 
     num_mask = 2 ** n
-    mx = 0.0
-    path = []
+    mx = 1.0
+    path = [goods[0]]
     logger.info("Start!")
 
     for i in range(n):
@@ -112,7 +112,7 @@ def calc1(data):
                     
                     if to == i:
                         # Path that ends at i
-                        if dp[prev_end, mask] * w > dp[i, i, mask]:
+                        if dp[prev_end, mask] * w > dp[i, mask]:
                             pr[i, mask] = prev_end
                             dp[i, mask] = dp[prev_end, mask] * w
                     
