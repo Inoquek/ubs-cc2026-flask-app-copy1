@@ -41,6 +41,9 @@ def calc1(data):
                         continue
 
                     nmask = (mask ^ (2 ** to))
+                    if nmask >= num_mask :
+                        logger.info(i, mask, to, nmask)
+                        return {}
                     if dp[i][prev_end][nmask] * w > dp[i][to][mask]:
                         dp[i][to][mask] = dp[i][prev_end][nmask] * w
                         pr[i][to][mask] = prev_end
