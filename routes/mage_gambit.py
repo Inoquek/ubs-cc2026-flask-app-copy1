@@ -22,7 +22,7 @@ def solve_case(case):
             mp = reserve
             stamina = stamina_max
             last_front = None
-            for h in range(j + 1, idx + 1):
+            for h in range(j + 2, idx + 1):
                 if intel[h - 1][1] > mp or stamina == 0:
                     time += 10
                     mp = reserve
@@ -35,9 +35,9 @@ def solve_case(case):
                     time += 10
                 last_front = intel[h - 1][0]
 
-            if idx == n - 1 and not(mp == reserve and stamina == stamina_max):
+            if not(mp == reserve and stamina == stamina_max):
                 time += 10
-            dp[idx + 1] = dp[j] + time if dp[idx + 1] == -1 else max(dp[j] + time, dp[idx + 1])
+            dp[idx + 1] = dp[j] + time if dp[idx + 1] == -1 else min(dp[j] + time, dp[idx + 1])
 
     time = dp[n]
     return {"time": time}
