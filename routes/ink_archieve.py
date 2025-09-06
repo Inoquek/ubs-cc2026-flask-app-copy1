@@ -89,15 +89,15 @@ def calc1(data):
         connectivity_list[int(ratio[0])].append([int(ratio[1]), np.float64(ratio[2])])
 
     num_mask = 2 ** n
-    dp = np.zeros((n, n, num_mask), dtype=np.float64)
-    pr = np.ones((n, n, num_mask), dtype=np.int32)
-
-    mx = (0.0, 0, 0)
-
+    mx = 0.0
+    path = []
     logger.info("Start!")
 
     for i in range(n):
-        dp[i, i, 2**i] = 1.0
+        
+        dp = np.zeros((n, num_mask), dtype=np.float64)
+        pr = np.ones((n, num_mask), dtype=np.int32)
+        dp[i, 2**i] = 1.0
         for mask in range(1, num_mask):
             if (mask & (2**i)) == 0:
                 continue
@@ -112,9 +112,9 @@ def calc1(data):
                     
                     if to == i:
                         # Path that ends at i
-                        if dp[i, prev_end, mask] * w > dp[i, i, mask]:
-                            pr[i, i, mask] = prev_end
-                            dp[i, i, mask] = dp[i, prev_end, mask] * w
+                        if dp[prev_end, mask] * w > dp[i, i, mask]:
+                            pr[i, mask] = prev_end
+                            dp[i, mask] = dp[prev_end, mask] * w
                     
                     # Skip if 'to' is not in the mask
                     if (mask & (2**to)) == 0:
@@ -122,36 +122,32 @@ def calc1(data):
                         
                     # Remove 'to' from mask to get previous state
                     nmask = mask & ~(2**to)
-                    if dp[i, prev_end, nmask] * w > dp[i, to, mask]:
-                        dp[i, to, mask] = dp[i, prev_end, nmask] * w
-                        pr[i, to, mask] = prev_end
+                    if dp[prev_end, nmask] * w > dp[to, mask]:
+                        dp[to, mask] = dp[prev_end, nmask] * w
+                        pr[to, mask] = prev_end
 
-            if dp[i, i, mask] > mx[0]:
-                mx = (dp[i, i, mask], i, mask)
+            if dp[i, mask] > mx:
+                start = i
+                mx = dp[i, mask]
+                v = pr[start, mask]
+                path = [goods[start], goods[v]]
+                
+                logger.info([mx, start, mask, v])
+                
+                while v != start:
+                    current_mask = mask
+                    current = v
+                    v = pr[current, current_mask]
+                    # Only remove the current vertex after we've used it for lookup
+                    mask = mask & ~(2**current)
+                    path.append(goods[v])
+                    logger.info([mask, v])
 
     logger.info("DP computed")
-    gain, start, mask = mx
-    current = start
-    v = pr[start, start, mask]
-    path = [goods[start], goods[v]]
-    
-    logger.info([gain, start, mask, v])
-    
-    while v != start:
-        current_mask = mask
-        current = v
-        v = pr[start, current, current_mask]
-        # Only remove the current vertex after we've used it for lookup
-        mask = mask & ~(2**current)
-        path.append(goods[v])
-        logger.info([mask, v])
-
-    logger.info("Finished")
-    logger.info(path)
     rev_path = path[::-1]
 
     logger.info("Ready to Return")
-    return {"path": rev_path, "gain": float((gain - 1.0) * 100.0)}
+    return {"path": rev_path, "gain": float((mx - 1.0) * 100.0)}
                 
 
 
