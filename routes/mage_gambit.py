@@ -16,7 +16,7 @@ def solve_case(case):
 
     n = len(intel)
     dp = [-1 for _ in range(n + 1)]
-    for idx, in enumerate(intel):
+    for idx in range(n):
         for j in range(0, idx + 1):
             time = 0
             mp = reserve
