@@ -66,9 +66,9 @@ def calc1(data):
     path = [goods[start], goods[v]]
 
     logger.info([gain, start, mask, v])
-    id = 0
-    while v != start and id <= 10:
+    while v != start:
         new_mask = (mask ^ int(2 ** v))
+        logger.info(dp[start][v][mask])
         v = pr[start][v][mask]
         mask = new_mask
         path.append(goods[v])
@@ -125,7 +125,7 @@ def calc2(data):
 
     path = path[::-1]
 
-    return {"path": path, "gain": gain * 100.0}
+    return {"path": path, "gain": gain - 1.0}
     # mx = (dp[0][0], 0, 0)
     # for i in range(n):
     #     for j in range(n):
