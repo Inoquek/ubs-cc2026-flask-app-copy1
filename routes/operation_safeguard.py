@@ -7,9 +7,12 @@ import ast
 logger = logging.getLogger(__name__)
 
 def challenge1_calc(data) :
-    transformations = data.get("transformations")
+    transformations_ = data.get("transformations")
 
-    transformations = ast.literal_eval(transformations)
+    cleaned_string = transformations_.strip('[]')
+
+    # Step 2: Split by commas and strip whitespace
+    transformations = [func.strip() for func in cleaned_string.split(',')]
     encrypted_word = data.get("transformed_encrypted_word")
 
     words = encrypted_word.split()
