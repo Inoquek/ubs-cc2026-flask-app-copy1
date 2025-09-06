@@ -385,13 +385,15 @@ def calc(data):
 
     logger.info("Finished bfs!")
     path = []
-    while cur != 0:
+    idx = 0
+    while cur != 0 and idx <= 20:
         prev_v, step, ntype = pr[type][cur]
         path.append(step)
 
         cur = prev_v
         type = ntype
         logger.info([cur, type, "hmmmm"])
+        idx += 1
     
     path = path[::-1]
 
