@@ -425,16 +425,16 @@ def calc(data):
     k = m * n
     
     # Two states for each cell: type 0 and type 1
-    visited = [[False for _ in range(k)] for _ in range(2)]
-    pr = [[(-1, -1, -1) for _ in range(k)] for _ in range(2)]
+    visited = [[False for _ in range(k + 1)] for _ in range(2)]
+    pr = [[(-1, -1, -1) for _ in range(k + 1)] for _ in range(2)]
     
     # Build adjacency list for snakes/ladders
     connected = [-1 for _ in range(k)]
     for edge in edges:
         if edge.get("type") == "polyline":
             continue
-        start = edge["start_cell"] - 1  # Convert to 0-based
-        end = edge["end_cell"] - 1
+        start = edge["start_cell"]  # Convert to 0-based
+        end = edge["end_cell"]
         connected[start] = end
         logger.info(f"Connection: {start} -> {end}")
     
@@ -451,7 +451,7 @@ def calc(data):
         # logger.info(f"Processing: position={v}, type={current_type}")
         
         # Check if we reached the end
-        if v == k - 1:
+        if v == k:
             logger.info("Reached the end!")
             break
         
@@ -475,13 +475,13 @@ def calc(data):
             next_pos = v + step
             
             # Handle bouncing off boundaries
-            while next_pos >= k or next_pos < 0:
+            while next_pos >= k or next_pos < 1:
                 if next_pos >= k:
                     # Bounce back from the end
                     next_pos = (k - 1) - (next_pos - (k - 1))
                 else:
                     # Bounce back from the start (shouldn't happen with forward moves)
-                    next_pos = -next_pos
+                    next_pos = 1 + (1 - next_pos)
             
             # Determine next type based on dice roll and current type
             if dice_roll == 6 or (current_type == 1 and dice_roll != 1):
