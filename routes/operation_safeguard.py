@@ -27,7 +27,8 @@ def challenge1_calc(data) :
                 word = word[::-1]
 
         elif transform == "encode_mirror_alphabet(x)":
-
+            
+            logger.info("hmmm")
             for word in words:
                 new_word = ""
                 for i in range(len(word)):
@@ -39,6 +40,9 @@ def challenge1_calc(data) :
                         end = 'Z'
                     new_word += chr(ord(start) + (ord(end) - (ord(word[i]) - ord(start))))
                 word = new_word
+                logger.info(new_word)
+
+            logger.info(words)
         elif transform == "toggle_case(x)":
 
             for word in words:
