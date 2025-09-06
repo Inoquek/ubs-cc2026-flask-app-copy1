@@ -42,7 +42,7 @@ def calc1(data):
                     if (mask & (2 ** to)) == 0:
                         continue
 
-                    nmask = (mask ^ (2 ** to))
+                    nmask = (mask ^ int(2 ** to))
                     if dp[i][prev_end][nmask] * w > dp[i][to][mask]:
                         dp[i][to][mask] = dp[i][prev_end][nmask] * w
                         pr[i][to][mask] = prev_end
