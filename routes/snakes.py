@@ -475,10 +475,10 @@ def calc(data):
             next_pos = v + step
             
             # Handle bouncing off boundaries
-            while next_pos >= k or next_pos < 1:
-                if next_pos >= k:
+            while next_pos > k or next_pos < 1:
+                if next_pos > k:
                     # Bounce back from the end
-                    next_pos = (k - 1) - (next_pos - (k - 1))
+                    next_pos = k - (next_pos - k)
                 else:
                     # Bounce back from the start (shouldn't happen with forward moves)
                     next_pos = 1 + (1 - next_pos)
@@ -501,7 +501,7 @@ def calc(data):
     logger.info("Reconstructing path...")
     
     # Find which type reached the end
-    end_pos = k - 1
+    end_pos = k
     if visited[0][end_pos]:
         final_type = 0
     elif visited[1][end_pos]:
@@ -533,7 +533,7 @@ def calc(data):
     
     # Modify second-to-last element
     if len(ans) >= 2:
-        ans[-2] = ((ans[-2] + 1) % 6) + 1
+        ans[-2] = (ans[-2] % 6) + 1
     
     logger.info(f"Final answer: {ans}")
     return ans
