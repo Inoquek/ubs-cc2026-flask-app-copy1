@@ -58,7 +58,7 @@ def challenge1_calc(data) :
 
             for index, word in enumerate(words):
                 new_word = ""
-                for i in range(0, len(word), 2):
+                for i in range(0, len(word) - 1, 2):
                     new_word += word[i + 1]
                     new_word += word[i]
                 if len(word) % 2:
