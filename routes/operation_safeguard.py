@@ -3,11 +3,13 @@ from collections import defaultdict
 from flask import request, jsonify
 from routes import app
 import json
-
+import ast
 logger = logging.getLogger(__name__)
 
 def challenge1_calc(data) :
     transformations = data.get("transformations")
+
+    transformations = ast.literal_eval(transformations)
     encrypted_word = data.get("transformed_encrypted_word")
 
     words = encrypted_word.split()
