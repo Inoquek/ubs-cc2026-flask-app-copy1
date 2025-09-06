@@ -25,6 +25,8 @@ def calc1(data):
 
     mx = (0, 0, 0)
 
+    logger.info("Start!")
+
     for i in range(n):
         dp[i][i][2 ** i] = 1.0
         for mask in range(0, num_mask):
@@ -58,7 +60,7 @@ def calc1(data):
                                 mx = max(mx, (dp[i][end][mask] * to_edge[1], i, mask))
 
 
-
+    logger.info("DP computed")
     gain, start, mask = mx
     v = pr[start][start][mask]
     path = [goods[start], goods[v]]
