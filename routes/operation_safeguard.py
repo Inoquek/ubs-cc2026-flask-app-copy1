@@ -8,8 +8,6 @@ import ast
 import re
 logger = logging.getLogger(__name__)
 
-
-
 def challenge1_calc(data) :
     transformations = data.get("transformations")
 
@@ -259,7 +257,6 @@ def challenge3_calc(data: str) -> str:
 
 
 def challenge4_calc(result1, result2, result3) :
-
     return "a"
 
 @app.route('/operation-safeguard', methods=['POST'])
