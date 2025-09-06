@@ -33,7 +33,11 @@ def calc1(data):
                 w = ratio[2]
                 if dp[source][to] < (1.0 if source == v else dp[source][v]) * w:
                     dp[source][to] = dp[source][v] * w
-                    pr[source][to] = v
+                    pr[source][to] = v 
+
+    logger.info(dp)
+
+    return {}
 
     mx = (dp[0][0], 0)
     for i in range(n):
