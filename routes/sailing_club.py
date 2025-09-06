@@ -48,7 +48,7 @@ def calc(input):
     return ans
 
 
-@app.route("/sailing-club", methods = ["POST"])
+@app.route("/", methods = ["POST"])
 def sailing_club():
     data = request.get_json()
 
