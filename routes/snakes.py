@@ -345,7 +345,7 @@ def calc(data):
         # connectivity_list[edge[0] - 1].append(edge[1] - 1)
         connected[edge["start_cell"] - 1] = edge["end_cell"] - 1
     bfs_queue = deque()
-    bfs_queue.push((0,0))
+    bfs_queue.append((0,0))
     visited[0][0] = True 
 
     while bfs_queue:
