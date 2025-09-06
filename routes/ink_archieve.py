@@ -88,6 +88,7 @@ def calc1(data):
     for ratio in ratios:
         connectivity_list[int(ratio[0])].append([int(ratio[1]), np.float64(ratio[2])])
 
+    n = min(n , 10)
     num_mask = 2 ** n
     mx = 1.0
     path = [goods[0]]
