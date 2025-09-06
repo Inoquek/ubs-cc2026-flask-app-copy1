@@ -256,7 +256,36 @@ def challenge3_calc(data: str) -> str:
 
 
 def challenge4_calc(result1, result2, result3) :
-    return "Shadow Hydra"
+    def caesar_shift(text, shift):
+        result = []
+        for ch in text:
+            if 'A' <= ch <= 'Z':
+                result.append(chr((ord(ch) - ord('A') + shift) % 26 + ord('A')))
+            elif 'a' <= ch <= 'z':
+                result.append(chr((ord(ch) - ord('a') + shift) % 26 + ord('a')))
+            else:
+                result.append(ch)
+        return ''.join(result)
+
+    def vigenere_decrypt(text, key):
+        result = []
+        key = key.upper()
+        ki = 0
+        for ch in text:
+            if ch.isalpha():
+                base = 'A' if ch.isupper() else 'a'
+                k = ord(key[ki % len(key)]) - ord('A')
+                result.append(chr((ord(ch) - ord(base) - k) % 26 + ord(base)))
+                ki += 1
+            else:
+                result.append(ch)
+        return ''.join(result)
+
+    # Step 1: Caesar shift backwards by in2
+    step1 = caesar_shift(result1, -result2)
+    # Step 2: Vigenère decryption with key in3
+    plaintext = vigenere_decrypt(step1, result3)
+    return plaintext
 
 @app.route('/operation-safeguard', methods=['POST'])
 def operation_safeguard():
