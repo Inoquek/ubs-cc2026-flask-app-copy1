@@ -328,92 +328,214 @@ def auto_detect_and_parse(svg_content: str, debug: bool = False):
 # </svg>'''
 
 
-def calc(data):
-    m,n = data.get("grid_size")
+# def calc(data):
+#     m,n = data.get("grid_size")
 
+#     edges = data.get("edges")
+#     logger.info([m, n])
+#     logger.info(edges)
+    
+#     k = m * n
+
+#     visited = [[False for i in range(k)] for _ in range(2)]
+
+#     pr = [[(-1,-1, -1) for i in range(k)] for _ in range(2)]
+
+#     # connectivity_list = [[] for _ in range(n * m)]
+#     connected = [-1 for _ in range(k)]
+#     for edge in edges:
+#         # connectivity_list[edge[0] - 1].append(edge[1] - 1)
+#         connected[edge["start_cell"] - 1] = edge["end_cell"] - 1
+#     bfs_queue = deque()
+#     bfs_queue.append((0,0))
+#     visited[0][0] = True 
+
+#     logger.info("Starting BFS!")
+#     while bfs_queue:
+#         v, cur_type = bfs_queue.popleft()
+#         logger.info([v, cur_type])
+#         if v == k - 1:
+#             break
+
+#         if connected[v] != -1:
+
+#             if not visited[cur_type][connected[v]]:
+#                 visited[cur_type][connected[v]] = True
+#                 pr[cur_type][connected[v]] = copy.deepcopy(pr[cur_type][v])
+#                 bfs_queue.appendleft((connected[v], cur_type))
+
+#             continue
+        
+#         for i in range(1, 7):
+#             step = i if cur_type == 0 else int(2 ** i)
+#             next = v + step
+#             while next >= k or next < 0:
+#                 if next >= k:
+#                     next = (k - 1) - (next - (k - 1))
+#                 else:
+#                     next = -next
+#             ntype = 1 if (i == 6 or (cur_type == 1 and i != 1)) else 0
+
+#             logger.info([next, ntype, "ggg"])
+#             if not visited[ntype][next]:
+#                 visited[ntype][next] = True
+#                 pr[ntype][next] = (v, i, cur_type)
+#                 bfs_queue.append((next, ntype))
+
+    
+#     logger.info(visited[0][k - 1])
+#     logger.info(visited[1][k - 1])
+#     cur = k - 1
+#     cur_type = 0 if visited[0][cur] else 1
+
+#     logger.info("Finished bfs!")
+#     path = []
+#     path1 = [(cur, cur_type)]
+#     idx = 0
+#     while cur != 0 and idx <= 20:
+#         prev_v, step, ntype = pr[cur_type][cur]
+#         path.append(step)
+#         cur = prev_v
+#         cur_type = ntype
+#         path1.append((cur,cur_type))
+#         logger.info([cur, cur_type, "hmmmm"])
+#         idx += 1
+    
+#     path = path[::-1]
+
+#     logger.info(path1)
+#     ans = []
+#     for p in path:
+#         ans.append(p)
+#         ans.append(p)
+
+#     ans[-2] = ((ans[-2] + 1) % 6) + 1
+
+#     return ans
+
+def calc_fixed(data):
+    """
+    Fixed version of your BFS algorithm with corrections and improvements
+    """
+    m, n = data.get("grid_size")
     edges = data.get("edges")
-    logger.info([m, n])
-    logger.info(edges)
+    
+    logger.info(f"Grid size: {m}x{n}")
+    logger.info(f"Edges: {edges}")
     
     k = m * n
-
-    visited = [[False for i in range(k)] for _ in range(2)]
-
-    pr = [[(-1,-1, -1) for i in range(k)] for _ in range(2)]
-
-    # connectivity_list = [[] for _ in range(n * m)]
+    
+    # Two states for each cell: type 0 and type 1
+    visited = [[False for _ in range(k)] for _ in range(2)]
+    pr = [[(-1, -1, -1) for _ in range(k)] for _ in range(2)]
+    
+    # Build adjacency list for snakes/ladders
     connected = [-1 for _ in range(k)]
     for edge in edges:
-        # connectivity_list[edge[0] - 1].append(edge[1] - 1)
-        connected[edge["start_cell"] - 1] = edge["end_cell"] - 1
+        start = edge["start_cell"] - 1  # Convert to 0-based
+        end = edge["end_cell"] - 1
+        connected[start] = end
+        logger.info(f"Connection: {start} -> {end}")
+    
+    # BFS initialization
     bfs_queue = deque()
-    bfs_queue.append((0,0))
-    visited[0][0] = True 
-
+    bfs_queue.append((0, 0))  # (position, type)
+    visited[0][0] = True
+    pr[0][0] = (0, 0, 0)  # Initialize starting position
+    
     logger.info("Starting BFS!")
+    
     while bfs_queue:
-        v, cur_type = bfs_queue.popleft()
-        logger.info([v, cur_type])
+        v, current_type = bfs_queue.popleft()
+        logger.info(f"Processing: position={v}, type={current_type}")
+        
+        # Check if we reached the end
         if v == k - 1:
+            logger.info("Reached the end!")
             break
-
+        
+        # Handle snake/ladder connections (0-cost moves)
         if connected[v] != -1:
-
-            if not visited[cur_type][connected[v]]:
-                visited[cur_type][connected[v]] = True
-                pr[cur_type][connected[v]] = copy.deepcopy(pr[cur_type][v])
-                bfs_queue.appendleft((connected[v], cur_type))
-
+            next_pos = connected[v]
+            if not visited[current_type][next_pos]:
+                visited[current_type][next_pos] = True
+                pr[current_type][next_pos] = pr[current_type][v]  # Same parent
+                bfs_queue.appendleft((next_pos, current_type))  # Add to front (0-cost)
             continue
         
-        for i in range(1, 7):
-            step = i if cur_type == 0 else int(2 ** i)
-            next = v + step
-            while next >= k or next < 0:
-                if next >= k:
-                    next = (k - 1) - (next - (k - 1))
+        # Try all dice rolls (1-6)
+        for dice_roll in range(1, 7):
+            # Calculate step based on type
+            if current_type == 0:
+                step = dice_roll
+            else:  # type == 1
+                step = 2 ** dice_roll  # Powers of 2
+            
+            next_pos = v + step
+            
+            # Handle bouncing off boundaries
+            while next_pos >= k or next_pos < 0:
+                if next_pos >= k:
+                    # Bounce back from the end
+                    next_pos = (k - 1) - (next_pos - (k - 1))
                 else:
-                    next = -next
-            ntype = 1 if (i == 6 or (cur_type == 1 and i != 1)) else 0
-
-            logger.info([next, ntype, "ggg"])
-            if not visited[ntype][next]:
-                visited[ntype][next] = True
-                pr[ntype][next] = (v, i, cur_type)
-                bfs_queue.append((next, ntype))
-
+                    # Bounce back from the start (shouldn't happen with forward moves)
+                    next_pos = -next_pos
+            
+            # Determine next type based on dice roll and current type
+            if dice_roll == 6 or (current_type == 1 and dice_roll != 1):
+                next_type = 1
+            else:
+                next_type = 0
+            
+            logger.info(f"  Trying: dice={dice_roll}, step={step}, next_pos={next_pos}, next_type={next_type}")
+            
+            # Add to queue if not visited
+            if not visited[next_type][next_pos]:
+                visited[next_type][next_pos] = True
+                pr[next_type][next_pos] = (v, dice_roll, current_type)
+                bfs_queue.append((next_pos, next_type))
     
-    logger.info(visited[0][k - 1])
-    logger.info(visited[1][k - 1])
-    cur = k - 1
-    cur_type = 0 if visited[0][cur] else 1
-
-    logger.info("Finished bfs!")
+    # Reconstruct path
+    logger.info("Reconstructing path...")
+    
+    # Find which type reached the end
+    end_pos = k - 1
+    if visited[0][end_pos]:
+        final_type = 0
+    elif visited[1][end_pos]:
+        final_type = 1
+    else:
+        logger.error("No path found to the end!")
+        return []
+    
+    # Trace back the path
     path = []
-    path1 = [(cur, cur_type)]
-    idx = 0
-    while cur != 0 and idx <= 20:
-        prev_v, step, ntype = pr[cur_type][cur]
-        path.append(step)
-        cur = prev_v
-        cur_type = ntype
-        path1.append((cur,cur_type))
-        logger.info([cur, cur_type, "hmmmm"])
-        idx += 1
+    cur_pos = end_pos
+    cur_type = final_type
     
-    path = path[::-1]
-
-    logger.info(path1)
+    while cur_pos != 0 or cur_type != 0:
+        prev_pos, dice_roll, prev_type = pr[cur_type][cur_pos]
+        path.append(dice_roll)
+        
+        logger.info(f"Path step: dice={dice_roll}, from {prev_pos} to {cur_pos}")
+        
+        cur_pos = prev_pos
+        cur_type = prev_type
+    
+    path = path[::-1]  # Reverse to get forward path
+    
+    # Generate answer format (appears to duplicate each move?)
     ans = []
-    for p in path:
-        ans.append(p)
-        ans.append(p)
-
-    ans[-2] = ((ans[-2] + 1) % 6) + 1
-
+    for dice_roll in path:
+        ans.extend([dice_roll, dice_roll])
+    
+    # Modify second-to-last element
+    if len(ans) >= 2:
+        ans[-2] = ((ans[-2] + 1) % 6) + 1
+    
+    logger.info(f"Final answer: {ans}")
     return ans
-
-
 
 @app.route("/slpu", methods = ["POST"])
 def snakes():

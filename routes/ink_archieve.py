@@ -155,7 +155,7 @@ def parse_float_custom(s):
     return decimal.Decimal(str(round(float(s), 20)))
 @app.route("/The-Ink-Archive", methods = ["POST"])
 def ink_archieve():
-    data = json.loads(request, parse_float=parse_float_custom)
+    data = json.loads(request.get_data(as_text=True), parse_float=parse_float_custom)
 
     logging.info("data sent for evaluation {}".format(data))
     
