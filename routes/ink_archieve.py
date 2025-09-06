@@ -4,7 +4,7 @@ from collections import defaultdict
 from flask import request, jsonify
 from routes import app
 import json
-
+import numpy as np
 logger = logging.getLogger(__name__)
 
 
@@ -16,12 +16,12 @@ def calc1(data):
     connectivity_list = [[] for _ in range(n)]
 
     for ratio in ratios:
-        connectivity_list[int(ratio[0])].append([int(ratio[1]), ratio[2]])
+        connectivity_list[int(ratio[0])].append([int(ratio[1]), np.astype(ratio[2], np.float64)])
 
     
     num_mask = 2 ** n
-    dp = [[[0.0 for _ in range(num_mask)] for ___ in range(n)] for __ in range(n)]
-    pr = [[[1 for _ in range(num_mask)] for ___ in range(n)] for __ in range(n)]
+    dp = np.array([[[0.0 for _ in range(num_mask)] for ___ in range(n)] for __ in range(n)]).astype(np.float64)
+    pr = np.array([[[1 for _ in range(num_mask)] for ___ in range(n)] for __ in range(n)])
 
     mx = (0, 0, 0)
 
@@ -75,7 +75,7 @@ def calc1(data):
     rev_path = path[::-1]
 
     logger.info("Ready to Return")
-    return {"path": rev_path, "gain": (gain - 1.0) * 100.0}
+    return {"path": rev_path, "gain": float((gain - 1.0) * 100.0)}
                 
 
 def calc2(data):
