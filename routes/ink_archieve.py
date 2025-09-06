@@ -62,7 +62,7 @@ def calc1(data):
     gain, start, mask = mx
     v = pr[start][start][mask]
     path = [goods[start], goods[v]]
-    mask = (mask ^ (2 ** v))
+    mask = (mask ^ int(2 ** v))
     while v != start:
         v = pr[start][v][mask]
         mask = (mask ^ (2 ** v))
@@ -141,7 +141,7 @@ def ink_archieve():
     logging.info("data sent for evaluation {}".format(data))
     
 
-    result = [calc1(data[0])]
+    result = [calc1(data[0]), calc1(data[1])]
     
     logging.info("investigate result: %s", data)
     return json.dumps(data)
