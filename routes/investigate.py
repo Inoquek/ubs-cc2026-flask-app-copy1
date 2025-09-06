@@ -73,6 +73,6 @@ def investigate():
     # else:
         # result = {"networks": [calc(n) for n in networks]}
 
-    result = json.dumps({"networks": [calc(n) for n in networks]})
+    result = {"networks": [calc(n) for n in networks]}
     logging.info("investigate result: %s", result)
-    return result
+    return jsonify(result)
