@@ -3,7 +3,6 @@ from collections import defaultdict
 from flask import request, jsonify
 from routes import app
 import json
-import ast
 
 import re
 logger = logging.getLogger(__name__)
@@ -113,7 +112,7 @@ def challenge1_calc(data) :
 
 
 def challenge2_calc(data) :
-    return "a"
+    return 3
 
 def _parse_kv_log(line: str) -> dict:
     """Parse 'K: V | K2: V2 | ...' with arbitrary order/casing."""
