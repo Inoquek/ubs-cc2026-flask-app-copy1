@@ -56,6 +56,7 @@ def calc2(data):
     ratios = data.get("ratios")
     goods = data.get("goods")
 
+
     n = len(goods)
     # connectivity_list = [[] for _ in range(n)]
 
@@ -64,12 +65,12 @@ def calc2(data):
 
 
     dp = [[0 for _ in range(n)] for __ in range(n)]
-    pr = [[-1 for _ in range(n)] for _ in range(n)]
+    pr = [[0 for _ in range(n)] for _ in range(n)]
 
     for i in range(n):
         dp[i][i] = 1
 
-    for _ in range(n):
+    for _ in range(10):
         for source in range(n):
             for ratio in ratios:
                 v = int(ratio[0])
@@ -119,7 +120,7 @@ def ink_archieve():
     logging.info("data sent for evaluation {}".format(data))
     
 
-    result = [calc1(data[0]), calc2(data[1])]
+    result = [calc1(data[0])]
     
     logging.info("investigate result: %s", data)
     return json.dumps(data)
