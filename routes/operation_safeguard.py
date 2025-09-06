@@ -86,7 +86,7 @@ def challenge1_calc(data) :
             for index, word in enumerate(words):
                 new_word = ""
                 for i in range(len(word)):
-                    if word[i] in set('a', 'o', 'e', 'u', 'i'):
+                    if word[i] in set(['a', 'o', 'e', 'u', 'i']):
                         new_word += word[i]
                     elif i % 2 == 0:
                         new_word += word[i]
