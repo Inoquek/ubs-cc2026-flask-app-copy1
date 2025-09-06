@@ -62,11 +62,16 @@ def calc1(data):
     gain, start, mask = mx
     v = pr[start][start][mask]
     path = [goods[start], goods[v]]
-    while v != start:
+
+    logger.info(gain, start, mask, v)
+    id = 0
+    while v != start and id <= 10:
         new_mask = (mask ^ int(2 ** v))
         v = pr[start][v][mask]
         mask = new_mask
         path.append(goods[v])
+        logger.info(new_mask, v)
+        id += 1
 
     path = path[::-1]
 
