@@ -23,7 +23,7 @@ def calc(network):
         connect_list[user2].append((user1, id))
         id += 1
 
-    ans = {"networkId": network.get("networkId"), "network": []}
+    ans = {"networkId": network.get("networkId"), "extraChannels": []}
 
     def dfs(visited, vertex, target, ban_id):
         if vertex == target:
@@ -45,7 +45,7 @@ def calc(network):
         user2 = edge.get("spy2")
 
         if dfs(set(), user1, user2, id):
-            ans["network"].append({"spy1": user1, "spy2": user2})
+            ans["extraChannels"].append({"spy1": user1, "spy2": user2})
         
         id += 1
 
@@ -73,6 +73,6 @@ def investigate():
     # else:
         # result = {"networks": [calc(n) for n in networks]}
 
-    result = [calc(n) for n in networks]
+    result = {"networks": [calc(n) for n in networks]}
     logging.info("investigate result: %s", result)
     return json.dumps(result)
