@@ -16,6 +16,7 @@ def solve_case(case):
 
     n = len(intel)
     dp = [-1 for _ in range(n + 1)]
+    dp[0] = 0
     for idx in range(n):
         for j in range(0, idx + 1):
             time = 0
@@ -37,6 +38,7 @@ def solve_case(case):
 
             if not(mp == reserve and stamina == stamina_max):
                 time += 10
+
             dp[idx + 1] = dp[j] + time if dp[idx + 1] == -1 else min(dp[j] + time, dp[idx + 1])
 
     time = dp[n]
