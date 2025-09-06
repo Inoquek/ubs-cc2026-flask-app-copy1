@@ -28,8 +28,8 @@ def calc1(data):
     for _ in range(n):
         for source in range(n):
             for ratio in ratios:
-                v = ratio[0]
-                to = ratio[1]
+                v = int(ratio[0])
+                to = int(ratio[1])
                 w = ratio[2]
                 if dp[source][to] < (1.0 if source == v else dp[source][v]) * w:
                     dp[source][to] = dp[source][v] * w
@@ -72,22 +72,21 @@ def calc2(data):
     for _ in range(n):
         for source in range(n):
             for ratio in ratios:
-                v = ratio[0]
-                to = ratio[1]
+                v = int(ratio[0])
+                to = int(ratio[1])
                 w = ratio[2]
                 if dp[source][to] < (1.0 if source == v else dp[source][v]) * w:
                     dp[source][to] = dp[source][v] * w
                     pr[source][to] = v
 
-    mx = (dp[0][0], 0, 0)
+    mx = (dp[0][0], 0)
     for i in range(n):
-        for j in range(n):
-            mx = max(mx, (dp[i][j], i, j))
+        mx = max(mx, (dp[i][i], i))
 
-    gain, start, finish = mx
-    v = pr[start][finish]
+    gain, start = mx
+    v = pr[start][start]
 
-    path = [goods[finish], goods[v]]
+    path = [goods[start], goods[v]]
     while v != start:
         v = pr[start][v]
         path.append(goods[v])
@@ -95,6 +94,22 @@ def calc2(data):
     path = path[::-1]
 
     return {"path": path, "gain": gain * 100.0}
+    # mx = (dp[0][0], 0, 0)
+    # for i in range(n):
+    #     for j in range(n):
+    #         mx = max(mx, (dp[i][j], i, j))
+
+    # gain, start, finish = mx
+    # v = pr[start][finish]
+
+    # path = [goods[finish], goods[v]]
+    # while v != start:
+    #     v = pr[start][v]
+    #     path.append(goods[v])
+
+    # path = path[::-1]
+
+    # return {"path": path, "gain": gain * 100.0}
 
 
 @app.route("/The-Ink-Archive", methods = ["POST"])
