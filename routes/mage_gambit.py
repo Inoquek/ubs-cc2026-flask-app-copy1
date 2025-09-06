@@ -6,7 +6,7 @@ from routes import app
 ATTACK_MINUTES = 10
 COOLDOWN_MINUTES = 10
 
-logger = logging.getLogger(name)
+logger = logging.getLogger(__name__)
 
 def solve_case(case):
     intel = case["intel"]
@@ -16,7 +16,7 @@ def solve_case(case):
 
     n = len(intel)
     dp = [-1 for _ in range(n + 1)]
-    for idx, in enumerate(intel, start=1):
+    for idx, in enumerate(intel):
         for j in range(0, idx + 1):
             time = 0
             mp = reserve
