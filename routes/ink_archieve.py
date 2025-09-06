@@ -141,7 +141,7 @@ def calc1(data):
                     # Only remove the current vertex after we've used it for lookup
                     mask = mask & ~(2**current)
                     path.append(goods[v])
-                    logger.info([mask, v])
+                    logger.info("edge: %d, %d", mask, v)
 
     logger.info("DP computed")
     rev_path = path[::-1]
